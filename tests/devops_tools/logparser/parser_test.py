@@ -170,19 +170,19 @@ def test_run_match_candidate_handles_match() -> None:
     lines: list[LogLine] = []
     for i in range(3):
         lines.append(LogLine("test", i + 1))
-    lines.extend((
-        LogLine("matching again", 6), 
-        LogLine("matched", 7),
-        LogLine("test", 8)))
+    lines.extend(
+        (LogLine("matching again", 6), LogLine("matched", 7), LogLine("test", 8))
+    )
 
     rule = MatchRule(
         name="test",
         solution="",
         max_lines=10,
         patterns=[
-            LineCheck(contains="matching"), 
+            LineCheck(contains="matching"),
             LineCheck(contains="matching again"),
-            LineCheck(contains="matched")],
+            LineCheck(contains="matched"),
+        ],
     )
 
     p = Parser([])
@@ -221,14 +221,10 @@ def test_run_match_candidate_handles_max_lines() -> None:
 
 def test_run_match_candidate_handles_per_check_max_lines() -> None:
     p = Parser([])
-    lines: list[LogLine] = [
-        LogLine("matching again", 2)
-    ]
+    lines: list[LogLine] = [LogLine("matching again", 2)]
     for i in range(6):
         lines.append(LogLine("test", i + 2))
-    lines.extend((
-        LogLine("matched", 7),
-        LogLine("test", 8)))
+    lines.extend((LogLine("matched", 7), LogLine("test", 8)))
 
     rule = MatchRule(
         name="test",
@@ -237,7 +233,8 @@ def test_run_match_candidate_handles_per_check_max_lines() -> None:
         patterns=[
             LineCheck(contains="matching"),
             LineCheck(contains="matching again"),
-            LineCheck(contains="never gonna match", maxlines=3)],
+            LineCheck(contains="never gonna match", maxlines=3),
+        ],
     )
 
     gen = p._run_match_candidate(LogLine("matching", 1), rule)
@@ -341,6 +338,7 @@ def test_parse() -> None:
 
     assert len(matches) == 1
     assert matches[0].rule == rule
+
 
 def test_parse_no_match() -> None:
     p = Parser([RULE_A, RULE_B])
