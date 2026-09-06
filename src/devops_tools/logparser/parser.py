@@ -1,7 +1,7 @@
 from collections.abc import Generator, Iterable
 from dataclasses import dataclass
 
-from devops_tools.logparser.rules import MatchRule
+from .rules import MatchRule
 
 
 @dataclass
